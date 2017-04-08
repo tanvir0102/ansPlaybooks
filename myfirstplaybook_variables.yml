@@ -1,0 +1,11 @@
+#My First Playbook with variables
+---
+- hosts : all
+  vars :
+      control_server : 172.31.11.52
+      web_root : /var/www/html
+      myuser : root
+      updatemyfile : 455
+  tasks : 
+    - name : Install the tomcat server...
+      yum : pkg=tomcat state=installed update_cache=true
