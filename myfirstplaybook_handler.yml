@@ -1,0 +1,23 @@
+#My First Playbook with variables and handler
+---
+- hosts : apacheweb
+  user : ansadm
+  sudo : yes
+  connection : ssh
+  gather_facts : yes
+  vars_prompt :
+    - name : Prompt
+      prompt : Install the apache web server and restart it's services
+  vars :
+      control_server : 172.31.11.52
+      web_root : /var/www/html
+      myuser : root
+      updatemyfile : 455
+  tasks : 
+    - name : Install the apache web server packages 
+      action : yum name=httpd state=installed
+      notify : Restart httpd
+
+  handlers : 
+    - name : Restart httpd
+      action : service name=httpd state=started
