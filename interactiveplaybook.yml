@@ -1,0 +1,20 @@
+##This is Interactive Playbook
+
+---
+- hosts : apacheweb
+  user : ansadm
+  sudo : yes
+  connection : ssh
+  gather_facts : noi
+  vars : 
+      playbook_version : 0.01b
+  vars_prompt :
+    - name : pkgtoinstall
+      prompt : Install Which package?
+      default : telnet
+      private : no
+  tasks : 
+    - name : Install the indicated Package
+      yum : pkg={{ pkgtoinstall }} state=latest
+
+
