@@ -1,0 +1,25 @@
+#My First Playbook with variables along with target
+---
+- hosts : all
+  user : ansadm
+  sudo : yes
+  connection : ssh
+  gather_facts : yes
+  vars :
+      control_server : 172.31.11.52
+      web_root : /var/www/html
+      myuser : root
+      updatemyfile : 455
+  vars_prompt:
+    - name : PROMPT
+      prompt : Check for DRY RUN?
+
+  tasks : 
+    - name : Install the tomcat server...
+      yum : pkg=tomcat state=installed update_cache=true
+
+    - name : Install the logwatch package
+      yum : pkg=logwatch state=absent update_cache=true
+    
+    - name : Install the htop package
+      yum : pkg=htop state=installed update_cache=true
