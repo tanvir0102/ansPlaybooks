@@ -1,0 +1,14 @@
+##Playbook with run once module
+
+---
+- hosts : all
+  user : ansadm
+  sudo : yes
+  connection : ssh
+  gather_facts : no
+  tasks :
+    - name : Log my uptime
+      raw : /usr/bin/uptime >> /home/ansadm/uptime.log
+    - name : List all the directory under var
+      raw : ls -al /var/ >> /home/ansadm/vardirect.list
+      run_once : true
