@@ -1,0 +1,18 @@
+##My playbook with outline design
+--- 
+- hosts : appserver
+  user : ansadm
+  sudo : yes
+  gather_facts : no
+  tasks :
+    - name : Record start date and time
+      raw : /bin/date > /home/ansadm/playbookstart.log
+    - name : Install the tomcat server
+      yum : pkg=tomcat state=latest
+    - name : Satrt the tomcat services
+      service : name=httpd state=started
+    - name : Start the client software/install them
+      yum : pkg=logwatch state=installed
+    - name : Record end date and time
+      raw : /bin/date > /home/ansadm/playbookend.log
+
