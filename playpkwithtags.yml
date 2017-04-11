@@ -1,0 +1,31 @@
+#My playbook with variables along with targets along with tasks along with Tags
+---
+- hosts : all
+  user : ansadm
+  sudo : yes
+  connection : ssh
+  gather_facts : yes
+  vars :
+     control_server : 52.37.214.4
+     web_root : /var/www/html
+     myuser : root
+     updatemyfile : 455
+  vars_prompt:
+   - name : PROMPT
+     prompt : Install the LOGWATCH AND HTOP packages?
+  tasks :
+   - name : Install the logwatch and htop packages
+     yum : pkg={{ item }} state=installed update_cache=yes
+     with_items :
+     - logwatch
+     - htop
+     - tomcat
+     - httpd
+
+     tags :
+     - packages
+   - name : Varify that htop is installed
+     raw : yum list installed | grep htop > /home/ansadm/pkg.log
+
+     tags : 
+     - varification
