@@ -1,0 +1,15 @@
+#WaitFor Module Usage in Playbook
+---
+- hosts : all
+  sudo : yes
+  gather_facts : yes
+  tasks :
+    - name : Installing the HTTPD
+      action : yum name=httpd state=installed
+    - name : Waiting for port 80 to open
+      wait_for :
+          port : 80
+          state : started
+    - name : Verify the FTP Installaion
+      action : yum name=ftp state=installed
+
