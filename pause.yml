@@ -1,0 +1,14 @@
+#The Pause module
+---
+- hosts : all
+  user : ansadm
+  sudo : yes
+  gather_facts : yes
+  tasks :
+    - name : Install httpd
+      action : yum name=httpd state=installed
+    - name : PAUSING <<<<<>>>>>
+      pause :
+        prompt : "Make sure the installation is complete"
+    - name : Varify Telnel Installation
+      action : yum name=telnet state=present
