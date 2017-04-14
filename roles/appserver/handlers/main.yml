@@ -1,0 +1,2 @@
+- name : RestartHTTPD
+  service : name=httpd state=restarted

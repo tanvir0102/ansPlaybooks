@@ -1,0 +1,13 @@
+---     #Master Playbook for installing apache
+- hosts : appserver
+  user : ansadm
+  sudo : yes
+  connection : ssh
+  pre_tasks :
+   - name : how long the ROLE Task took to execute
+     raw : date > /home/ansadm/start.log
+  roles :
+    - appserver
+  post_tasks :
+   - name : when did the role tasks completed
+     raw : date > /home/ansadm/end.log

@@ -1,0 +1,13 @@
+##The service module
+---
+- hosts : apacheweb, appserver
+  user : ansadm
+  sudo : yes
+  gather_facts : yes
+  connection : ssh
+  tasks :
+    - name : Install the Webserver-HTTPS
+      action : yum name=httpd state=latest
+    - name : Start the Web services
+      service : name=httpd state=started
+

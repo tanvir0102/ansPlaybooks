@@ -1,0 +1,16 @@
+##The copy module
+---
+- hosts : apacheweb, appserver
+  user : ansadm
+  sudo : yes
+  gather_facts : yes
+  connection : ssh
+  tasks :
+    - name : Copy the file to destination servers
+      action : copy
+        src=/home/ansadm/test.txt
+        dest=/home/ansadm/test.txt
+        owner=ansadm group=ansadm mode=0655
+        backup=yes
+
+
