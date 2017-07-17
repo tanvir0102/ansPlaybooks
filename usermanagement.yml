@@ -1,0 +1,71 @@
+#this is demo playbook on user management using ansible
+##playbook use "user, group, authorized_keys" modules
+
+---
+- hosts: all
+#  user: ansadm
+#  become: yes
+  become_user: root
+  tasks:
+  #this task create groups
+  - name: add a group
+    group:
+     name={{ item }}
+     state=present
+    with_items:
+     - demogrp
+     - demogrp1
+     - demogrp2
+    tags: add_new_group
+  #this task add several users on the target machines, for/standard loop used
+  - name: add several users
+    user:
+     name={{ item }}
+     state=present
+     groups=demogrp
+     password="qwerty"
+     shell=/bin/bash
+    with_items:
+     - demouser1
+     - demouser2
+     - demouser3
+     - demouser4
+    tags: add_new_user
+
+  #this task generate public keys for user
+  - name: generate ssh keys for a user
+    user:
+     name={{ item }}
+     generate_ssh_key=yes
+     ssh_key_bits=4096
+     ssh_key_file=.ssh/id_rsa
+    with_items:
+     - demouser1
+    tags: generate_ssh_keys
+  
+  #this task is to copy the public keys to user account
+  - name: update authorized keys for a user
+    authorized_key:
+     user: demouser1
+     state: present
+     key: "{{ lookup('file', '/home/demouser1/.ssh/id_rsa.pub') }}"
+    tags: copy_pub_key
+  
+  #this task is to delete the users
+  - name: delete several users
+    user:
+     name={{ item }}
+     state=absent
+    with_items:
+     - demouser3
+     - demouser4
+    tags: remove_user
+  # this task is to delete the group
+  - name: delete several group
+    group:
+     name={{ item }}
+     state=absent
+    with_items:
+     - demogrp1
+     - demogrp2
+    tags: remove_group
